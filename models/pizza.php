@@ -14,7 +14,7 @@ class Pizza{
     }
     function read() {
         // Query SQL para selecionar todos os campos da tabela de pizzas
-        $query = "SELECT idPizza, nome, ingredientes, valor FROM " . $this->tabela;
+        $query = "SELECT idPizza, nome, ingredientes, valor FROM " . $this->tabela . " ORDER BY valor";
  
         // Prepara a query
         $stmt = $this->conn->prepare($query);

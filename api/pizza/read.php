@@ -36,6 +36,23 @@ if ($pizza->idPizza) {
     // // `JSON_PRETTY_PRINT` é opcional, mas deixa o JSON mais legível
     // echo json_encode($pizza_arr, JSON_PRETTY_PRINT);
 
+
+// if (isset($pizza->nome)) {
+//         $pizza_arr = array(
+//             "id" => $pizza->idPizza,
+//             "nome" => $pizza->nome,
+//             "ingredientes" => $pizza->ingredientes,
+//             "valor" => $pizza->valor
+//         );
+//         http_response_code(200);
+//         // Converte para JSON e envia a resposta
+//         // `JSON_PRETTY_PRINT` é opcional, mas deixa o JSON mais legível
+//         echo json_encode($pizza_arr, JSON_PRETTY_PRINT);
+//     } else {
+//         http_response_code(404);
+//         echo json_encode(array("Mensagem" => "Nenhuma pizza foi encontrada com este id."), JSON_PRETTY_PRINT);
+//     }
+
       if ($pizza->read_single()) {
  
         http_response_code(200);

@@ -24,5 +24,93 @@ class Bebida{
  
         return $stmt;
     }
+ public function read_single()
+    {
+        // Cria a consulta
+        $query = 'SELECT
+            b.idBebida,
+            b.nome,
+            b.tipo,
+            b.qtdLitros
+            b.valor
+        FROM
+            ' . $this->tabela . ' b
+        WHERE
+            p.idBebida = ?
+        LIMIT 1';
+ 
+        // Prepara a query
+        $stmt = $this->conn->prepare($query);
+ 
+        // Vincula o ID
+        $stmt->bindParam(1, $this->idBebida);
+ 
+        // Executa a query
+        $stmt->execute();
+ 
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+ 
+        // Define as propriedades
+        $this->nome = $row['nome'];
+        $this->tipo = $row['tipo'];
+        $this->qtdLitros = $row['qtdLitros'];
+        $this->valor = $row['valor'];
+    }
+    public function create()
+    {
+        // Query de inserção
+        $query = 'INSERT INTO ' . $this->tabela . ' SET nome = :nome, tipo = :tipo, qtdLitros = :qtdLitros, valor = :valor';
+ 
+        // Preparar a query
+        $stmt = $this->conn->prepare($query);
+ 
+        // Limpar os dados
+        $this->nome = htmlspecialchars(strip_tags($this->nome));
+        $this->tipo = htmlspecialchars(strip_tags($this->tipo));
+        $this->qtdLitros = htmlspecialchars(strip_tags($this->qtdLitros));
+        $this->valor = htmlspecialchars(strip_tags($this->valor));
+       
+        // Vincular os parâmetros
+        $stmt->bindParam(':nome', $this->nome);
+        $stmt->bindParam(':tipo', $this->tipo);
+        $stmt->bindParam(':qtdLitros', $this->qtdLitros);
+        $stmt->bindParam(':valor', $this->valor);
+ 
+        // Executar a query
+        if ($stmt->execute()) {
+            return true;
+        }    
+        return false;
+    }
+    public function update() {
+        // Query de atualização
+        $query = 'UPDATE ' . $this->tabela . ' SET nome=:nome, tipo=:tipo, qtdLitros=:qtdLitros, valor=:valor WHERE idBebida=:id';
+ 
+        // Preparar a query
+        $stmt = $this->conn->prepare($query);
+ 
+        // Limpar os dados
+        $this->nome = htmlspecialchars(strip_tags($this->nome));
+        $this->tipo = htmlspecialchars(strip_tags($this->tipo));
+        $this->qtdLitros = htmlspecialchars(strip_tags($this->qtdLitros));
+        $this->valor = htmlspecialchars(strip_tags($this->valor));
+        $this->idBebida = htmlspecialchars(strip_tags($this->idBebida));
+ 
+        // Vincular os parâmetros
+        $stmt->bindParam(':nome', $this->nome);
+        $stmt->bindParam(':tipo', $this->tipo);
+        $stmt->bindParam(':qtdLitros', $this->qtdLitros);
+        $stmt->bindParam(':valor', $this->valor);
+        $stmt->bindParam(':id', $this->idBebida);
+ 
+        // Executar a query
+        if($stmt->execute()) {
+            return true;
+        }
+     
+        return false;
+    }
+
+
 }
 
